@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const client = require('../database/database');
 
-router.get('/', (req,res) => {
+router.get('/', (req, res) => {
     try {
         console.log("Query GET executing");
         client.query("SELECT * FROM users", function (error, result) {
@@ -18,9 +18,9 @@ router.get('/', (req,res) => {
 router.post('/', (req, res) => {
     try {
         console.log('Query POST executing', req.body);
-        const {email, password} = req.body;
+        const { email, password } = req.body;
         client.query(
-            "INSERT INT users ( email, password) VALUES ($1, $2) RETURNING * "
+            "INSERT INTO users ( email, password) VALUES ($1, $2) RETURNING * ",
             [email, password],
             function (error, result) {
                 if (error) return console.error("Error executing INSERT query. Error: ", error)
@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
             }
         )
     } catch (error) {
-        console.error ("POST query error. Error: ", error)
+        console.error("POST query error. Error: ", error)
     }
 })
 
